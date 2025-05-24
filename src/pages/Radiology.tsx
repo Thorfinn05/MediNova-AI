@@ -412,6 +412,8 @@ const Radiology = () => {
                     className="hidden"
                     accept="image/*"
                     onChange={handleFileChange}
+                    placeholder="Select a radiology image"
+                    title="Select a radiology image"
                   />
                 </>
               ) : (

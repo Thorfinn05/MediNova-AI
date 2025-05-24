@@ -51,7 +51,7 @@ const Landing = () => {
             </h1>
             
             <p className="text-lg md:text-xl text-foreground/80 dark:text-foreground/70 max-w-2xl mb-8">
-              Powered by AI agents and radiology intelligence, MediNova brings clarity and precision to your health with Gemini 2.0 Flash technology.
+              Powered by AI agents and radiology intelligence, MediNova brings clarity and precision to your health with AI technology.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -85,7 +85,7 @@ const Landing = () => {
               <div className="absolute -bottom-8 left-20 w-72 h-72 bg-primary/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
               
               <div className="relative glass dark:bg-gray-800/70 p-8 rounded-2xl shadow-xl border border-white/20 dark:border-white/10">
-                <div className="text-3xl font-bold mb-6 text-gradient">MediNova</div>
+                <div className="text-3xl font-bold mb-6 text-gradient">MediNova AI</div>
                 <div className="space-y-6">
                   <div className="flex items-center">
                     <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600 dark:text-teal-400 mr-4">
