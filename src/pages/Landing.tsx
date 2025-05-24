@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Shield, Brain, TestTube, Pill, FileImage } from "lucide-react";
+import { ArrowRight, CheckCircle2, Shield, Tablets, Brain, TestTube, Pill, FileImage } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -106,13 +106,23 @@ const Landing = () => {
                       <p className="text-sm text-muted-foreground">Vision AI image analysis</p>
                     </div>
                   </div>
+
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-600 dark:text-teal-400 mr-4">
+                      <Tablets className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium">Prescription Analyzer</h3>
+                      <p className="text-sm text-muted-foreground">AI-powered Prescription Analyzer</p>
+                    </div>
+                  </div>
                   
                   <div className="flex items-center">
                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <Shield className="h-6 w-6" />
                     </div>
                     <div>
-                      <h3 className="font-medium">HIPAA Compliant</h3>
+                      <h3 className="font-medium">Privacy Focused</h3>
                       <p className="text-sm text-muted-foreground">Secure health insights</p>
                     </div>
                   </div>
