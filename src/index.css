@@ -1,0 +1,228 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+ 
+    --primary: 196 100% 47%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+ 
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+ 
+    --accent: 196 100% 97%;
+    --accent-foreground: 222 47% 11%;
+ 
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 196 100% 47%;
+ 
+    --radius: 0.5rem;
+
+    /* MediNova brand colors */
+    --teal-50: 166 76% 97%;
+    --teal-100: 167 85% 89%;
+    --teal-200: 168 84% 78%;
+    --teal-300: 171 77% 64%;
+    --teal-400: 172 66% 50%;
+    --teal-500: 173 80% 40%;
+    --teal-600: 175 84% 32%;
+    --teal-700: 177 70% 26%;
+    --teal-800: 178 69% 21%;
+    --teal-900: 180 70% 17%;
+    --teal-950: 182 72% 10%;
+
+    --azure-50: 198 100% 97%;
+    --azure-100: 199 100% 92%;
+    --azure-200: 199 94% 86%;
+    --azure-300: 198 93% 77%;
+    --azure-400: 198 90% 67%;
+    --azure-500: 198 100% 56%;
+    --azure-600: 200 98% 46%;
+    --azure-700: 201 90% 37%;
+    --azure-800: 202 80% 29%;
+    --azure-900: 202 77% 25%;
+    --azure-950: 204 80% 16%;
+  }
+ 
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 196 100% 50%;
+    --primary-foreground: 222 47% 11%;
+ 
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+ 
+    --accent: 196 100% 15%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 196 100% 50%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .hero-gradient {
+    background: radial-gradient(
+      circle at top center,
+      hsl(var(--azure-100)) 0%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  .glass {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
+  }
+
+  .modern-gradient {
+    @apply bg-gradient-to-r from-teal-500 to-azure-500;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-teal-500 to-azure-600 bg-clip-text text-transparent;
+  }
+
+  .card-glow {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  }
+
+  .teal-glow {
+    box-shadow: 0 0 15px rgba(20, 184, 166, 0.3);
+  }
+
+  .azure-glow {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite ease;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
