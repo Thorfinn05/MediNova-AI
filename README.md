@@ -105,7 +105,15 @@ Each agent uses **Gemini 2.5 (Flash or Vision)** in a coordinated pipeline, prov
 ## 🖼️ UI Preview
 
 > (Add screenshots of each module: Symptom Analyzer, Prescription Decoder, Radiology Scanner, Doctor Dashboard)
-<!-- ![Login Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/Rudranil.jpg)-->
+> ![Landing Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/ML.png)
+> ![Auth Interface](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MLG.png)
+> ![Dashboard Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MD.png)
+> ![Symptom Diagnosis Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MS.png)
+> ![Radiology Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MR.png)
+> ![Prescription Analyzer Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MP.png)
+> ![Profile Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MPR.png)
+> ![Aether Chatbot](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MA.png)
+> ![Developer's Section](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/MDV.png)
 
 ---
 
