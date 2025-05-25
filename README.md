@@ -104,16 +104,23 @@ Each agent uses **Gemini 2.5 (Flash or Vision)** in a coordinated pipeline, prov
 
 ## 🖼️ UI Preview
 
-> (Add screenshots of each module: Symptom Analyzer, Prescription Decoder, Radiology Scanner, Doctor Dashboard)
-> ![Landing Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/ML.png)
-> ![Auth Interface](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MLG.png)
-> ![Dashboard Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MD.png)
-> ![Symptom Diagnosis Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MS.png)
-> ![Radiology Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MR.png)
-> ![Prescription Analyzer Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MP.png)
-> ![Profile Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MPR.png)
-> ![Aether Chatbot](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MA.png)
-> ![Developer's Section](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MDV.png)
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/ML.png" alt="Landing Page" width="300"/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MLG.png" alt="Auth Interface" width="300"/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MD.png" alt="Dashboard Page" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MS.png" alt="Symptom Diagnosis Page" width="300"/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MR.png" alt="Radiology Page" width="300"/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MP.png" alt="Prescription Analyzer Page" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MPR.png" alt="Profile Page" width="300"/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MA.png" alt="Aether Chatbot" width="300" height='200'/></td>
+    <td><img src="https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/assets/MDV.png" alt="Developer's Section" width="300"/></td>
+  </tr>
+</table>
 
 ---
 
