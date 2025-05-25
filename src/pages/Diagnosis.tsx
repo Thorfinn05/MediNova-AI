@@ -203,267 +203,405 @@ const Diagnosis = () => {
     }
   };
 
+  // const parseConditionsFromResponse = (response: string) => {
+  //   try {
+  //     const conditions = [];
+  //     console.log("Parsing conditions from:", response);
+      
+  //     const patterns = [
+  //       /✅\s*(?:Possible\s*)?Condition\(s\)?:?\s*([\s\S]*?)(?=🧪|🩺|💊|🧠|$)/i,
+  //       /Condition\(s\)?:?\s*([\s\S]*?)(?=Test|Treatment|Reasoning|$)/i
+  //     ];
+      
+  //     let conditionsText = "";
+  //     for (const pattern of patterns) {
+  //       const match = response.match(pattern);
+  //       if (match) {
+  //         conditionsText = match[1].trim();
+  //         break;
+  //       }
+  //     }
+      
+  //     if (conditionsText) {
+  //       const lines = conditionsText.split('\n').filter(line => 
+  //         line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
+  //       );
+        
+  //       for (const line of lines) {
+  //         const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
+  //         if (cleanLine) {
+  //           const confidenceMatch = cleanLine.match(/(.*?)\s*-\s*Confidence:\s*(\w+)\s*\(?(\d+)%?\)?/i);
+            
+  //           if (confidenceMatch) {
+  //             conditions.push({
+  //               name: confidenceMatch[1].trim(),
+  //               confidence: {
+  //                 level: confidenceMatch[2] as "High" | "Medium" | "Low",
+  //                 percentage: confidenceMatch[3] ? parseInt(confidenceMatch[3]) : undefined
+  //               },
+  //               reasoning: "Based on symptom analysis"
+  //             });
+  //           } else {
+  //             conditions.push({
+  //               name: cleanLine,
+  //               confidence: { level: "Medium" as const },
+  //               reasoning: "Based on symptom analysis"
+  //             });
+  //           }
+  //         }
+  //       }
+  //     }
+      
+  //     if (conditions.length === 0) {
+  //       conditions.push({
+  //         name: "Further evaluation needed",
+  //         confidence: { level: "Low" as const },
+  //         reasoning: "Unable to determine specific condition from provided symptoms"
+  //       });
+  //     }
+      
+  //     console.log("Parsed conditions:", conditions);
+  //     return conditions;
+  //   } catch (error) {
+  //     console.error("Error parsing conditions:", error);
+  //     return [{
+  //       name: "Analysis error - please try again",
+  //       confidence: { level: "Low" as const },
+  //       reasoning: "Error in processing response"
+  //     }];
+  //   }
+  // };
+
   const parseConditionsFromResponse = (response: string) => {
-    try {
-      const conditions = [];
-      console.log("Parsing conditions from:", response);
-      
-      const patterns = [
-        /✅\s*(?:Possible\s*)?Condition\(s\)?:?\s*([\s\S]*?)(?=🧪|🩺|💊|🧠|$)/i,
-        /Condition\(s\)?:?\s*([\s\S]*?)(?=Test|Treatment|Reasoning|$)/i
-      ];
-      
-      let conditionsText = "";
-      for (const pattern of patterns) {
-        const match = response.match(pattern);
-        if (match) {
-          conditionsText = match[1].trim();
-          break;
+  try {
+    const conditions = [];
+    const conditionBlockMatch = response.match(/✅\s*\*\*Possible Condition\(s\):\*\*([\s\S]*?)(?=\n🧪|🧪|💊|🧠|🚨|$)/);
+
+    if (!conditionBlockMatch) return [];
+
+    const lines = conditionBlockMatch[1]
+      .trim()
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
+
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      const conditionMatch = line.match(/^[•*-]?\s*\*\*(.*?)\*\*\s*-\s*Confidence:\s*(\w+)/i);
+
+      if (conditionMatch) {
+        const name = conditionMatch[1].trim();
+        const confidence = conditionMatch[2] as "High" | "Medium" | "Low";
+
+        // Try to get the reasoning from the next line
+        let reasoning = "Based on symptom analysis";
+        const nextLine = lines[i + 1];
+        if (nextLine && /Reasoning:\s*(.+)/i.test(nextLine)) {
+          reasoning = nextLine.replace(/Reasoning:\s*/i, "").trim();
+          i++; // Skip reasoning line next time
         }
-      }
-      
-      if (conditionsText) {
-        const lines = conditionsText.split('\n').filter(line => 
-          line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
-        );
-        
-        for (const line of lines) {
-          const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
-          if (cleanLine) {
-            const confidenceMatch = cleanLine.match(/(.*?)\s*-\s*Confidence:\s*(\w+)\s*\(?(\d+)%?\)?/i);
-            
-            if (confidenceMatch) {
-              conditions.push({
-                name: confidenceMatch[1].trim(),
-                confidence: {
-                  level: confidenceMatch[2] as "High" | "Medium" | "Low",
-                  percentage: confidenceMatch[3] ? parseInt(confidenceMatch[3]) : undefined
-                },
-                reasoning: "Based on symptom analysis"
-              });
-            } else {
-              conditions.push({
-                name: cleanLine,
-                confidence: { level: "Medium" as const },
-                reasoning: "Based on symptom analysis"
-              });
-            }
-          }
-        }
-      }
-      
-      if (conditions.length === 0) {
+
         conditions.push({
-          name: "Further evaluation needed",
-          confidence: { level: "Low" as const },
-          reasoning: "Unable to determine specific condition from provided symptoms"
+          name,
+          confidence: { level: confidence },
+          reasoning
         });
       }
-      
-      console.log("Parsed conditions:", conditions);
-      return conditions;
-    } catch (error) {
-      console.error("Error parsing conditions:", error);
-      return [{
-        name: "Analysis error - please try again",
-        confidence: { level: "Low" as const },
-        reasoning: "Error in processing response"
-      }];
+      i++;
     }
-  };
+
+    return conditions;
+  } catch (error) {
+    console.error("Error parsing conditions:", error);
+    return [{
+      name: "Parsing error",
+      confidence: { level: "Low" as const },
+      reasoning: "Unable to extract conditions from the AI response"
+    }];
+  }
+};
+
   
+  // const parseTestsFromResponse = (response: string) => {
+  //   try {
+  //     const tests = [];
+  //     console.log("Parsing tests from:", response);
+      
+  //     const patterns = [
+  //       /🧪\s*(?:Recommended\s*)?Tests?:?\s*([\s\S]*?)(?=💊|🧠|🚨|$)/i,
+  //       /Tests?:?\s*([\s\S]*?)(?=Treatment|Reasoning|Warning|$)/i
+  //     ];
+      
+  //     let testsText = "";
+  //     for (const pattern of patterns) {
+  //       const match = response.match(pattern);
+  //       if (match) {
+  //         testsText = match[1].trim();
+  //         break;
+  //       }
+  //     }
+      
+  //     if (testsText) {
+  //       const lines = testsText.split('\n').filter(line => 
+  //         line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
+  //       );
+        
+  //       for (const line of lines) {
+  //         const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
+  //         if (cleanLine) {
+  //           const detailedMatch = cleanLine.match(/(.*?)\s*-\s*Purpose:\s*(.*?)\s*-\s*Urgency:\s*(\w+)/i);
+            
+  //           if (detailedMatch) {
+  //             tests.push({
+  //               name: detailedMatch[1].trim(),
+  //               purpose: detailedMatch[2].trim(),
+  //               urgency: detailedMatch[3] as "High" | "Medium" | "Low"
+  //             });
+  //           } else {
+  //             tests.push({
+  //               name: cleanLine,
+  //               urgency: "Medium" as const
+  //             });
+  //           }
+  //         }
+  //       }
+  //     }
+      
+  //     if (tests.length === 0) {
+  //       tests.push({
+  //         name: "Consult healthcare provider for appropriate testing",
+  //         urgency: "Medium" as const
+  //       });
+  //     }
+      
+  //     console.log("Parsed tests:", tests);
+  //     return tests;
+  //   } catch (error) {
+  //     console.error("Error parsing tests:", error);
+  //     return [{ name: "Consult healthcare provider", urgency: "Medium" as const }];
+  //   }
+  // };
+
   const parseTestsFromResponse = (response: string) => {
-    try {
-      const tests = [];
-      console.log("Parsing tests from:", response);
-      
-      const patterns = [
-        /🧪\s*(?:Recommended\s*)?Tests?:?\s*([\s\S]*?)(?=💊|🧠|🚨|$)/i,
-        /Tests?:?\s*([\s\S]*?)(?=Treatment|Reasoning|Warning|$)/i
-      ];
-      
-      let testsText = "";
-      for (const pattern of patterns) {
-        const match = response.match(pattern);
-        if (match) {
-          testsText = match[1].trim();
-          break;
-        }
-      }
-      
-      if (testsText) {
-        const lines = testsText.split('\n').filter(line => 
-          line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
-        );
-        
-        for (const line of lines) {
-          const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
-          if (cleanLine) {
-            const detailedMatch = cleanLine.match(/(.*?)\s*-\s*Purpose:\s*(.*?)\s*-\s*Urgency:\s*(\w+)/i);
-            
-            if (detailedMatch) {
-              tests.push({
-                name: detailedMatch[1].trim(),
-                purpose: detailedMatch[2].trim(),
-                urgency: detailedMatch[3] as "High" | "Medium" | "Low"
-              });
-            } else {
-              tests.push({
-                name: cleanLine,
-                urgency: "Medium" as const
-              });
-            }
-          }
-        }
-      }
-      
-      if (tests.length === 0) {
+  try {
+    const tests = [];
+    const testsMatch = response.match(/🧪\s*\*\*Recommended Tests:\*\*([\s\S]*?)(?=💊|🧠|🚨|$)/);
+
+    if (!testsMatch) return [];
+
+    const lines = testsMatch[1].trim().split('\n').filter(line => line.trim());
+
+    for (const line of lines) {
+      const cleaned = line.replace(/^[•*-]\s*/, '').trim();
+      const match = cleaned.match(/\*\*(.*?)\*\* - Purpose: (.*?) - Urgency: (\w+)/);
+
+      if (match) {
         tests.push({
-          name: "Consult healthcare provider for appropriate testing",
-          urgency: "Medium" as const
+          name: match[1].trim(),
+          purpose: match[2].trim(),
+          urgency: match[3] as "High" | "Medium" | "Low"
         });
       }
-      
-      console.log("Parsed tests:", tests);
-      return tests;
-    } catch (error) {
-      console.error("Error parsing tests:", error);
-      return [{ name: "Consult healthcare provider", urgency: "Medium" as const }];
     }
-  };
+
+    return tests;
+  } catch (e) {
+    console.error("Failed to parse tests:", e);
+    return [];
+  }
+};
+
   
-  const parseTreatmentsFromResponse = (response: string) => {
-    try {
-      const treatments = [];
-      const warningSigns = [];
-      console.log("Parsing treatments from:", response);
+  // const parseTreatmentsFromResponse = (response: string) => {
+  //   try {
+  //     const treatments = [];
+  //     const warningSigns = [];
+  //     console.log("Parsing treatments from:", response);
       
-      const treatmentPatterns = [
-        /💊\s*(?:Treatment\s*(?:Recommendations?)?):?\s*([\s\S]*?)(?=🚨|🧠|When\s*to\s*See|$)/i,
-        /Treatment:?\s*([\s\S]*?)(?=Warning|Reasoning|When\s*to\s*See|$)/i
-      ];
+  //     const treatmentPatterns = [
+  //       /💊\s*(?:Treatment\s*(?:Recommendations?)?):?\s*([\s\S]*?)(?=🚨|🧠|When\s*to\s*See|$)/i,
+  //       /Treatment:?\s*([\s\S]*?)(?=Warning|Reasoning|When\s*to\s*See|$)/i
+  //     ];
       
-      let treatmentsText = "";
-      for (const pattern of treatmentPatterns) {
-        const match = response.match(pattern);
-        if (match) {
-          treatmentsText = match[1].trim();
-          break;
-        }
-      }
+  //     let treatmentsText = "";
+  //     for (const pattern of treatmentPatterns) {
+  //       const match = response.match(pattern);
+  //       if (match) {
+  //         treatmentsText = match[1].trim();
+  //         break;
+  //       }
+  //     }
       
-      if (treatmentsText) {
-        const lines = treatmentsText.split('\n').filter(line => 
-          line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
-        );
+  //     if (treatmentsText) {
+  //       const lines = treatmentsText.split('\n').filter(line => 
+  //         line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
+  //       );
         
-        for (const line of lines) {
-          const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
-          if (cleanLine) {
-            const explainedMatch = cleanLine.match(/(.*?)\s*-\s*(.*)/);
+  //       for (const line of lines) {
+  //         const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
+  //         if (cleanLine) {
+  //           const explainedMatch = cleanLine.match(/(.*?)\s*-\s*(.*)/);
             
-            if (explainedMatch) {
-              treatments.push({
-                action: explainedMatch[1].trim(),
-                explanation: explainedMatch[2].trim()
-              });
-            } else {
-              treatments.push({
-                action: cleanLine
-              });
-            }
-          }
-        }
-      }
+  //           if (explainedMatch) {
+  //             treatments.push({
+  //               action: explainedMatch[1].trim(),
+  //               explanation: explainedMatch[2].trim()
+  //             });
+  //           } else {
+  //             treatments.push({
+  //               action: cleanLine
+  //             });
+  //           }
+  //         }
+  //       }
+  //     }
       
-      const warningPatterns = [
-        /🚨\s*(?:When\s*to\s*See\s*(?:a\s*)?Doctor):?\s*([\s\S]*?)(?=\n\s*\n|$)/i,
-        /When\s*to\s*See\s*(?:a\s*)?Doctor:?\s*([\s\S]*?)(?=\n\s*\n|$)/i
-      ];
+  //     const warningPatterns = [
+  //       /🚨\s*(?:When\s*to\s*See\s*(?:a\s*)?Doctor):?\s*([\s\S]*?)(?=\n\s*\n|$)/i,
+  //       /When\s*to\s*See\s*(?:a\s*)?Doctor:?\s*([\s\S]*?)(?=\n\s*\n|$)/i
+  //     ];
       
-      let warningText = "";
-      for (const pattern of warningPatterns) {
-        const match = response.match(pattern);
-        if (match) {
-          warningText = match[1].trim();
-          break;
-        }
-      }
+  //     let warningText = "";
+  //     for (const pattern of warningPatterns) {
+  //       const match = response.match(pattern);
+  //       if (match) {
+  //         warningText = match[1].trim();
+  //         break;
+  //       }
+  //     }
       
-      if (warningText) {
-        const lines = warningText.split('\n').filter(line => 
-          line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
-        );
+  //     if (warningText) {
+  //       const lines = warningText.split('\n').filter(line => 
+  //         line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')
+  //       );
         
-        for (const line of lines) {
-          const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
-          if (cleanLine) {
-            warningSigns.push(cleanLine);
-          }
+  //       for (const line of lines) {
+  //         const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
+  //         if (cleanLine) {
+  //           warningSigns.push(cleanLine);
+  //         }
+  //       }
+  //     }
+      
+  //     if (treatments.length === 0) {
+  //       treatments.push({
+  //         action: "Consult healthcare provider for appropriate treatment"
+  //       });
+  //     }
+      
+  //     console.log("Parsed treatments:", treatments);
+  //     console.log("Parsed warnings:", warningSigns);
+  //     return { treatments, warningSigns };
+  //   } catch (error) {
+  //     console.error("Error parsing treatments:", error);
+  //     return { 
+  //       treatments: [{ action: "Consult healthcare provider" }], 
+  //       warningSigns: ["Seek immediate medical attention if symptoms worsen"] 
+  //     };
+  //   }
+  // };
+
+  const parseTreatmentsFromResponse = (response: string) => {
+  const treatments = [];
+  const warningSigns = [];
+
+  try {
+    const treatmentMatch = response.match(/💊\s*\*\*Treatment Recommendations:\*\*([\s\S]*?)(?=🚨|🧠|$)/);
+
+    if (treatmentMatch) {
+      const lines = treatmentMatch[1].trim().split('\n').filter(line => line.trim());
+      for (const line of lines) {
+        const cleaned = line.replace(/^[•*-]\s*/, '').trim();
+        const parts = cleaned.split(' - ');
+        if (parts.length >= 2) {
+          treatments.push({
+            action: parts[0].replace(/\*\*/g, '').trim(),
+            explanation: parts.slice(1).join(' - ').trim()
+          });
+        } else {
+          treatments.push({ action: cleaned });
         }
       }
-      
-      if (treatments.length === 0) {
-        treatments.push({
-          action: "Consult healthcare provider for appropriate treatment"
-        });
-      }
-      
-      console.log("Parsed treatments:", treatments);
-      console.log("Parsed warnings:", warningSigns);
-      return { treatments, warningSigns };
-    } catch (error) {
-      console.error("Error parsing treatments:", error);
-      return { 
-        treatments: [{ action: "Consult healthcare provider" }], 
-        warningSigns: ["Seek immediate medical attention if symptoms worsen"] 
-      };
     }
-  };
+
+    const warningMatch = response.match(/🚨\s*\*\*When to See a Doctor:\*\*([\s\S]*?)(?=🧠|$)/);
+    if (warningMatch) {
+      const lines = warningMatch[1].trim().split('\n').filter(line => line.trim());
+      for (const line of lines) {
+        warningSigns.push(line.replace(/^[•*-]\s*/, '').trim());
+      }
+    }
+
+    return { treatments, warningSigns };
+  } catch (e) {
+    console.error("Failed to parse treatments/warnings:", e);
+    return { treatments: [], warningSigns: [] };
+  }
+};
+
   
-  const parseReasoningFromResponse = (response: string) => {
-    try {
-      const reasoningLines = [];
-      console.log("Parsing reasoning from:", response);
+  // const parseReasoningFromResponse = (response: string) => {
+  //   try {
+  //     const reasoningLines = [];
+  //     console.log("Parsing reasoning from:", response);
       
-      const patterns = [
-        /🧠\s*(?:Medical\s*)?Reasoning:?\s*([\s\S]*?)(?=\n\s*\n|$)/i,
-        /Reasoning:?\s*([\s\S]*?)(?=\n\s*\n|$)/i
-      ];
+  //     const patterns = [
+  //       /🧠\s*(?:Medical\s*)?Reasoning:?\s*([\s\S]*?)(?=\n\s*\n|$)/i,
+  //       /Reasoning:?\s*([\s\S]*?)(?=\n\s*\n|$)/i
+  //     ];
       
-      let reasoningText = "";
-      for (const pattern of patterns) {
-        const match = response.match(pattern);
-        if (match) {
-          reasoningText = match[1].trim();
-          break;
-        }
-      }
+  //     let reasoningText = "";
+  //     for (const pattern of patterns) {
+  //       const match = response.match(pattern);
+  //       if (match) {
+  //         reasoningText = match[1].trim();
+  //         break;
+  //       }
+  //     }
       
-      if (reasoningText) {
-        const lines = reasoningText.split('\n').filter(line => 
-          line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*') || line.trim().length > 10
-        );
+  //     if (reasoningText) {
+  //       const lines = reasoningText.split('\n').filter(line => 
+  //         line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*') || line.trim().length > 10
+  //       );
         
-        for (const line of lines) {
-          const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
-          if (cleanLine && cleanLine.length > 5) {
-            reasoningLines.push(cleanLine);
-          }
-        }
-      }
+  //       for (const line of lines) {
+  //         const cleanLine = line.replace(/^[•\-*]\s*/, '').trim();
+  //         if (cleanLine && cleanLine.length > 5) {
+  //           reasoningLines.push(cleanLine);
+  //         }
+  //       }
+  //     }
       
-      if (reasoningLines.length === 0) {
-        reasoningLines.push("Medical reasoning based on symptom presentation and clinical knowledge");
-      }
+  //     if (reasoningLines.length === 0) {
+  //       reasoningLines.push("Medical reasoning based on symptom presentation and clinical knowledge");
+  //     }
       
-      console.log("Parsed reasoning:", reasoningLines);
-      return reasoningLines;
-    } catch (error) {
-      console.error("Error parsing reasoning:", error);
-      return ["Analysis based on reported symptoms"];
-    }
-  };
+  //     console.log("Parsed reasoning:", reasoningLines);
+  //     return reasoningLines;
+  //   } catch (error) {
+  //     console.error("Error parsing reasoning:", error);
+  //     return ["Analysis based on reported symptoms"];
+  //   }
+  // };
+
+  const parseReasoningFromResponse = (response: string) => {
+  try {
+    const reasoningMatch = response.match(/🧠\s*\*\*Medical Reasoning:\*\*([\s\S]*?)($|\n\n|$)/);
+
+    if (!reasoningMatch) return [];
+
+    const lines = reasoningMatch[1].trim().split('\n').filter(line => line.trim());
+
+    return lines.map(line =>
+      line.replace(/^[•→*-]\s*/, '').trim()
+    );
+  } catch (e) {
+    console.error("Failed to parse reasoning:", e);
+    return [];
+  }
+};
+
 
   const runDiagnosis = async (data: DiagnosisFormValues) => {
     try {
