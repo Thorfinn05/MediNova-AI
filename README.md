@@ -1,6 +1,6 @@
 # 🩺 MediNova – Smarter Diagnosis. Safer Care.
 
-An AI-powered healthcare platform leveraging *Gemini 2.0 Flash* multi-agent intelligence to provide smarter diagnostics, radiology insights, treatment suggestions, and more — all while maintaining HIPAA-compliant privacy and precision.
+An AI-powered healthcare platform leveraging multi-agent intelligence to provide smarter diagnostics, radiology insights, treatment suggestions, and more — all while maintaining HIPAA-compliant privacy and precision.
 
 📦 [GitHub Repository](https://github.com/Thorfinn05/MediNova-AI)
 
