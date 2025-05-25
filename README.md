@@ -78,7 +78,7 @@ Each agent specializes in a task but collaborates with others for holistic analy
 
 ### Clone the repository
 ```bash
-git clone https://github.com/Thorfinn05/medinova.git
+git clone https://github.com/Thorfinn05/MediNova-AI.git
 
 cd medinova
 ```
