@@ -102,8 +102,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-teal-500 to-azure-500 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
+            <div className="h-8 w-8 rounded-full flex items-center justify-center">
+              {/* <span className="text-white font-bold text-sm">M</span> */}
+              <img
+                src="/Medinova-logo.png"
+                alt="MediNova Logo"
+                className="h-12 w-12 rounded-full object-cover"
+              />
             </div>
             <Link 
               to="/dashboard" 

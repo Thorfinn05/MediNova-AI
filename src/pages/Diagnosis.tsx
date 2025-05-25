@@ -134,21 +134,30 @@ const Diagnosis = () => {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         
         // Convert to text using Web Speech API
-        const recognition = new (window as any).webkitSpeechRecognition();
+        const SpeechRecognition = (window as typeof window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+          toast({
+            title: "Speech recognition not supported",
+            description: "Your browser does not support speech recognition.",
+            variant: "destructive",
+          });
+          return;
+        }
+        const recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
         recognition.continuous = true;
         recognition.interimResults = false;
 
-        recognition.onresult = (event: any) => {
+        recognition.onresult = (event: SpeechRecognitionEvent) => {
           const transcript = Array.from(event.results)
-            .map((result: any) => result[0].transcript)
+            .map((result) => result[0].transcript)
             .join(' ');
           
           const currentSymptoms = form.getValues("symptoms");
           form.setValue("symptoms", currentSymptoms + (currentSymptoms ? " " : "") + transcript);
         };
 
-        recognition.onerror = (event: any) => {
+        recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
           console.error('Speech recognition error:', event.error);
           toast({
             title: "Voice recording error",
