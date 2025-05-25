@@ -85,7 +85,7 @@ MediNova runs on **micro-agent AI architecture**, with each module responsible f
 6. **PDF Generator**
 7. **Chat & Follow-up Agent**
 
-Each agent uses **Gemini 2.0 (Flash or Vision)** in a coordinated pipeline, providing **human-level insights** in real time.
+Each agent uses **Gemini 2.5 (Flash or Vision)** in a coordinated pipeline, providing **human-level insights** in real time.
 
 ---
 
