@@ -3,8 +3,8 @@ import { toast } from "sonner";
 // Gemini 2.0 Flash API key
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
-const TEXT_MODEL = "gemini-2.0-flash";
-const VISION_MODEL = "gemini-2.0-flash";
+const TEXT_MODEL = "gemini-2.5-flash-preview-05-20";
+const VISION_MODEL = "gemini-2.5-flash-preview-05-20";
 
 interface GeminiMessagePart {
   text?: string;
