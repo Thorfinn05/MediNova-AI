@@ -619,7 +619,7 @@ const Auth = () => {
             </Tabs>
           </CardContent>
           <CardFooter className="text-sm text-center flex justify-center text-muted-foreground">
-            <p>Protected by AetherCare security</p>
+            <p>Protected by MediNova's AetherCare security</p>
           </CardFooter>
         </Card>
       </div>
