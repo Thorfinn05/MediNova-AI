@@ -231,11 +231,11 @@ const Landing = () => {
                   <Brain className="h-6 w-6 text-teal-600 dark:text-teal-400" />
                 </div>
                 <CardTitle>Advanced Diagnosis</CardTitle>
-                <CardDescription>Multi-agent AI system powered by Gemini 2.0 Flash</CardDescription>
+                <CardDescription>Multi-agent AI system powered by Gemini 2.5 Flash</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Our multi-agent AI system analyzes symptoms, suggests tests, and provides treatment recommendations using state-of-the-art Gemini 2.0 Flash technology.
+                  Our multi-agent AI system analyzes symptoms, suggests tests, and provides treatment recommendations using state-of-the-art Gemini 2.5 Flash technology.
                 </p>
               </CardContent>
             </Card>
@@ -251,7 +251,7 @@ const Landing = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Upload medical images and receive detailed annotations and analysis powered by vision transformers and Gemini 2.0 Flash vision capabilities.
+                  Upload medical images and receive detailed annotations and analysis powered by vision transformers and Gemini 2.5 Flash vision capabilities.
                 </p>
               </CardContent>
             </Card>
@@ -305,7 +305,7 @@ const Landing = () => {
               Meet Our Intelligent Agents
             </h2>
             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-              Powered by Gemini 2.0 Flash, our specialized AI agents work together to provide comprehensive health insights
+              Powered by Gemini 2.5 Flash, our specialized AI agents work together to provide comprehensive health insights
             </p>
           </div>
           
@@ -381,7 +381,7 @@ const Landing = () => {
                       <span>Specialized procedures based on clinical indications</span>
                     </li>
                   </ul>
-                  <p className="text-muted-foreground text-sm">Using Gemini 2.0 Flash to prioritize tests by diagnostic value and clinical necessity</p>
+                  <p className="text-muted-foreground text-sm">Using Gemini 2.5 Flash to prioritize tests by diagnostic value and clinical necessity</p>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -415,7 +415,7 @@ const Landing = () => {
                       <span>Follow-up care and monitoring requirements</span>
                     </li>
                   </ul>
-                  <p className="text-muted-foreground text-sm">Gemini 2.0 Flash ensures treatments are evidence-based and clinically appropriate</p>
+                  <p className="text-muted-foreground text-sm">Gemini 2.5 Flash ensures treatments are evidence-based and clinically appropriate</p>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -434,7 +434,7 @@ const Landing = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="mb-4">Using vision transformers and Gemini 2.0 Flash vision capabilities, this agent assists with medical image interpretation:</p>
+                  <p className="mb-4">Using vision transformers and Gemini 2.5 Flash vision capabilities, this agent assists with medical image interpretation:</p>
                   <ul className="space-y-2 mb-4">
                     <li className="flex items-start">
                       <CheckCircle2 className="h-5 w-5 text-azure-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -492,7 +492,7 @@ const Landing = () => {
                     </li>
                   </ul>
                   <p className="text-muted-foreground text-sm">
-                    Powered by Gemini 2.0 Flash and integrated with pharmacy databases for accuracy
+                    Powered by Gemini 2.5 Flash and integrated with pharmacy databases for accuracy
                   </p>
                 </CardContent>
               </Card>
