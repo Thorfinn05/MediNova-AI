@@ -273,54 +273,54 @@ const Diagnosis = () => {
   // };
 
   const parseConditionsFromResponse = (response: string) => {
-  try {
-    const conditions = [];
-    const conditionBlockMatch = response.match(/✅\s*\*\*Possible Condition\(s\):\*\*([\s\S]*?)(?=\n🧪|🧪|💊|🧠|🚨|$)/);
+    try {
+      const conditions = [];
+      const conditionBlockMatch = response.match(/✅\s*\*\*Possible Condition\(s\):\*\*([\s\S]*?)(?=\n🧪|🧪|💊|🧠|🚨|$)/);
 
-    if (!conditionBlockMatch) return [];
+      if (!conditionBlockMatch) return [];
 
-    const lines = conditionBlockMatch[1]
-      .trim()
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0);
+      const lines = conditionBlockMatch[1]
+        .trim()
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
 
-    let i = 0;
-    while (i < lines.length) {
-      const line = lines[i];
-      const conditionMatch = line.match(/^[•*-]?\s*\*\*(.*?)\*\*\s*-\s*Confidence:\s*(\w+)/i);
+      let i = 0;
+      while (i < lines.length) {
+        const line = lines[i];
+        const conditionMatch = line.match(/^[•*-]?\s*\*\*(.*?)\*\*\s*-\s*Confidence:\s*(\w+)/i);
 
-      if (conditionMatch) {
-        const name = conditionMatch[1].trim();
-        const confidence = conditionMatch[2] as "High" | "Medium" | "Low";
+        if (conditionMatch) {
+          const name = conditionMatch[1].trim();
+          const confidence = conditionMatch[2] as "High" | "Medium" | "Low";
 
-        // Try to get the reasoning from the next line
-        let reasoning = "Based on symptom analysis";
-        const nextLine = lines[i + 1];
-        if (nextLine && /Reasoning:\s*(.+)/i.test(nextLine)) {
-          reasoning = nextLine.replace(/Reasoning:\s*/i, "").trim();
-          i++; // Skip reasoning line next time
+          // Try to get the reasoning from the next line
+          let reasoning = "Based on symptom analysis";
+          const nextLine = lines[i + 1];
+          if (nextLine && /Reasoning:\s*(.+)/i.test(nextLine)) {
+            reasoning = nextLine.replace(/Reasoning:\s*/i, "").trim();
+            i++; // Skip reasoning line next time
+          }
+
+          conditions.push({
+            name,
+            confidence: { level: confidence },
+            reasoning
+          });
         }
-
-        conditions.push({
-          name,
-          confidence: { level: confidence },
-          reasoning
-        });
+        i++;
       }
-      i++;
-    }
 
-    return conditions;
-  } catch (error) {
-    console.error("Error parsing conditions:", error);
-    return [{
-      name: "Parsing error",
-      confidence: { level: "Low" as const },
-      reasoning: "Unable to extract conditions from the AI response"
-    }];
-  }
-};
+      return conditions;
+      } catch (error) {
+        console.error("Error parsing conditions:", error);
+        return [{
+          name: "Parsing error",
+          confidence: { level: "Low" as const },
+          reasoning: "Unable to extract conditions from the AI response"
+        }];
+      }
+  };
 
   
   // const parseTestsFromResponse = (response: string) => {
@@ -384,33 +384,33 @@ const Diagnosis = () => {
   // };
 
   const parseTestsFromResponse = (response: string) => {
-  try {
-    const tests = [];
-    const testsMatch = response.match(/🧪\s*\*\*Recommended Tests:\*\*([\s\S]*?)(?=💊|🧠|🚨|$)/);
+    try {
+      const tests = [];
+      const testsMatch = response.match(/🧪\s*\*\*Recommended Tests:\*\*([\s\S]*?)(?=💊|🧠|🚨|$)/);
 
-    if (!testsMatch) return [];
+      if (!testsMatch) return [];
 
-    const lines = testsMatch[1].trim().split('\n').filter(line => line.trim());
+      const lines = testsMatch[1].trim().split('\n').filter(line => line.trim());
 
-    for (const line of lines) {
-      const cleaned = line.replace(/^[•*-]\s*/, '').trim();
-      const match = cleaned.match(/\*\*(.*?)\*\* - Purpose: (.*?) - Urgency: (\w+)/);
+      for (const line of lines) {
+        const cleaned = line.replace(/^[•*-]\s*/, '').trim();
+        const match = cleaned.match(/\*\*(.*?)\*\* - Purpose: (.*?) - Urgency: (\w+)/);
 
-      if (match) {
-        tests.push({
-          name: match[1].trim(),
-          purpose: match[2].trim(),
-          urgency: match[3] as "High" | "Medium" | "Low"
-        });
+        if (match) {
+          tests.push({
+            name: match[1].trim(),
+            purpose: match[2].trim(),
+            urgency: match[3] as "High" | "Medium" | "Low"
+          });
+        }
       }
-    }
 
-    return tests;
-  } catch (e) {
-    console.error("Failed to parse tests:", e);
-    return [];
-  }
-};
+      return tests;
+    } catch (e) {
+      console.error("Failed to parse tests:", e);
+      return [];
+    }
+  };
 
   
   // const parseTreatmentsFromResponse = (response: string) => {
@@ -503,42 +503,42 @@ const Diagnosis = () => {
   // };
 
   const parseTreatmentsFromResponse = (response: string) => {
-  const treatments = [];
-  const warningSigns = [];
+    const treatments = [];
+    const warningSigns = [];
 
-  try {
-    const treatmentMatch = response.match(/💊\s*\*\*Treatment Recommendations:\*\*([\s\S]*?)(?=🚨|🧠|$)/);
+    try {
+      const treatmentMatch = response.match(/💊\s*\*\*Treatment Recommendations:\*\*([\s\S]*?)(?=🚨|🧠|$)/);
 
-    if (treatmentMatch) {
-      const lines = treatmentMatch[1].trim().split('\n').filter(line => line.trim());
-      for (const line of lines) {
-        const cleaned = line.replace(/^[•*-]\s*/, '').trim();
-        const parts = cleaned.split(' - ');
-        if (parts.length >= 2) {
-          treatments.push({
-            action: parts[0].replace(/\*\*/g, '').trim(),
-            explanation: parts.slice(1).join(' - ').trim()
-          });
-        } else {
-          treatments.push({ action: cleaned });
+      if (treatmentMatch) {
+        const lines = treatmentMatch[1].trim().split('\n').filter(line => line.trim());
+        for (const line of lines) {
+          const cleaned = line.replace(/^[•*-]\s*/, '').trim();
+          const parts = cleaned.split(' - ');
+          if (parts.length >= 2) {
+            treatments.push({
+              action: parts[0].replace(/\*\*/g, '').trim(),
+              explanation: parts.slice(1).join(' - ').trim()
+            });
+          } else {
+            treatments.push({ action: cleaned });
+          }
         }
       }
-    }
 
-    const warningMatch = response.match(/🚨\s*\*\*When to See a Doctor:\*\*([\s\S]*?)(?=🧠|$)/);
-    if (warningMatch) {
-      const lines = warningMatch[1].trim().split('\n').filter(line => line.trim());
-      for (const line of lines) {
-        warningSigns.push(line.replace(/^[•*-]\s*/, '').trim());
+      const warningMatch = response.match(/🚨\s*\*\*When to See a Doctor:\*\*([\s\S]*?)(?=🧠|$)/);
+      if (warningMatch) {
+        const lines = warningMatch[1].trim().split('\n').filter(line => line.trim());
+        for (const line of lines) {
+          warningSigns.push(line.replace(/^[•*-]\s*/, '').trim());
+        }
       }
-    }
 
-    return { treatments, warningSigns };
-  } catch (e) {
-    console.error("Failed to parse treatments/warnings:", e);
-    return { treatments: [], warningSigns: [] };
-  }
-};
+      return { treatments, warningSigns };
+    } catch (e) {
+      console.error("Failed to parse treatments/warnings:", e);
+      return { treatments: [], warningSigns: [] };
+    }
+  };
 
   
   // const parseReasoningFromResponse = (response: string) => {
@@ -586,21 +586,21 @@ const Diagnosis = () => {
   // };
 
   const parseReasoningFromResponse = (response: string) => {
-  try {
-    const reasoningMatch = response.match(/🧠\s*\*\*Medical Reasoning:\*\*([\s\S]*?)($|\n\n|$)/);
+    try {
+      const reasoningMatch = response.match(/🧠\s*\*\*Medical Reasoning:\*\*([\s\S]*?)($|\n\n|$)/);
 
-    if (!reasoningMatch) return [];
+      if (!reasoningMatch) return [];
 
-    const lines = reasoningMatch[1].trim().split('\n').filter(line => line.trim());
+      const lines = reasoningMatch[1].trim().split('\n').filter(line => line.trim());
 
-    return lines.map(line =>
-      line.replace(/^[•→*-]\s*/, '').trim()
-    );
-  } catch (e) {
-    console.error("Failed to parse reasoning:", e);
-    return [];
-  }
-};
+      return lines.map(line =>
+        line.replace(/^[•→*-]\s*/, '').trim()
+      );
+    } catch (e) {
+      console.error("Failed to parse reasoning:", e);
+      return [];
+    }
+  };
 
 
   const runDiagnosis = async (data: DiagnosisFormValues) => {
