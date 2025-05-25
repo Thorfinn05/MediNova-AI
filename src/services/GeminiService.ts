@@ -606,14 +606,17 @@ ${patientData}
 ---
 
 ✅ **Possible Condition(s):**
-• [Condition 1] - Confidence: [High/Medium/Low] ([percentage if applicable])
+• [Condition 1] - Confidence: [High/Medium/Low]
   Reasoning: [Brief explanation considering age/history/medications]
 • [Condition 2] - Confidence: [High/Medium/Low] 
-  Reasoning: [Brief explanation]
+  Reasoning: [Brief explanation considering age/history/medications]
+• [Condition 3] - Confidence: [High/Medium/Low] ([percentage if applicable])
+  Reasoning: [Brief explanation considering age/history/medications]
 
 🧪 **Recommended Tests:**
 • [Test 1] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 • [Test 2] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+• [Test 3] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 
 💊 **Treatment Recommendations:**
 • [Treatment/Action 1] - [Brief explanation considering patient's profile]
@@ -654,6 +657,7 @@ ${symptoms}
 Respond in this EXACT format:
 
 🧪 **Recommended Tests:**
+• [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 • [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 • [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 
@@ -703,9 +707,9 @@ Provide 3-4 key reasoning points considering patient's complete profile.`;
    * Enhanced Radiology prompt for better analysis
    */
   private static constructRadiologyPrompt(description: string): string {
-    return `You are a medical AI assistant trained to analyze chest X-rays and return precise, radiology-style findings in a compact, clinical format. 
+    return `You are a medical AI assistant trained to analyze X-rays, Ultrasound Scans and return precise, radiology-style findings in a compact, clinical format. 
 
-A user has uploaded a chest X-ray image. Analyze the image and return output in the following structure:
+A user has uploaded an X-ray image / Ultrasound Scan image. Analyze the image and return output in the following structure:
 
 ---
 
