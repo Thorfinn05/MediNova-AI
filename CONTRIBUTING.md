@@ -24,7 +24,6 @@ We appreciate your interest in contributing to this AI-powered healthcare platfo
    ```bash
    git clone https://github.com/YOUR_USERNAME/MediNova-AI.git
    cd MediNova-AI
-````
 
 3. **Install dependencies**:
 
