@@ -39,17 +39,23 @@ An AI-powered healthcare platform leveraging *Gemini 2.0 Flash* multi-agent inte
 
 * All health data is encrypted and securely processed with role-based access.
 
+### 🤖 Aether-Chatbot
+
+*  Live chat with AI medical agent about any healthcare related queries.
 ---
 
 ## 🧠 How MediNova Works
 
-MediNova is powered by *Gemini 2.0 Flash* agents that work together in a modular pipeline to:
+MediNova is powered by AI agents that work together in a modular pipeline to:
 
 1. Analyze symptoms
 2. Recommend tests
 3. Suggest treatments
-4. Annotate medical images
-5. Deliver secure, explainable outputs
+4. Patient-specific diagnosis history
+5. Annotate medical images
+6. Deliver secure, explainable outputs
+7. PDF report downloads
+8. Friendly chatbot
 
 Each agent specializes in a task but collaborates with others for holistic analysis.
 
@@ -57,13 +63,16 @@ Each agent specializes in a task but collaborates with others for holistic analy
 
 ## 🛠 Tech Stack
 
-| Layer          | Technologies Used                          |
-| -------------- | ------------------------------------------ |
-| Frontend       | React.js, Tailwind CSS, Vite               |
-| AI Integration | Gemini 2.0 Flash API (Vision + Text)       |
-| UI/UX          | Framer Motion, Shadcn/UI, Lucide Icons     |
-| Deployment     | Vercel                                     |
-| Security       | HIPAA-ready design principles (conceptual) |
+| Layer                | Technologies Used                          |
+| -------------------- | ------------------------------------------ |
+| Frontend             | React.js, Tailwind CSS, Vite               |
+| Backend              | React.js, Firebase                        |
+| Authentication       | Firebase Authentication                    |
+| Database and Storage | Firestore Database, Firebase Storage
+| AI Integration       | Gemini 2.0 Flash API (Vision + Text)       |
+| UI/UX                | Framer Motion, Shadcn/UI, Lucide Icons     |
+| Deployment           | Vercel                                     |
+| Security             | HIPAA-ready design principles (conceptual) |
 
 ---
 
@@ -117,9 +126,7 @@ medinova/
 
 ## 🎯 Future Enhancements
 
-* 🔎 Live chat with AI medical agents
-* 🧠 Patient-specific diagnosis history
-* 📄 PDF report downloads
+* 🧠 Improved analysis
 * 🏥 Doctor collaboration portal
 * 📱 Mobile-responsive PWA version
 
