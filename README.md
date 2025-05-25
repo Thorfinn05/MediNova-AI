@@ -1,6 +1,6 @@
 # 🩺 MediNova – Smarter Diagnosis. Safer Care.
 
-An **AI-powered healthcare platform** leveraging **multi-agent intelligence** and **Gemini 2.0 (Flash + Vision)** to provide intelligent diagnostics, radiology insights, treatment suggestions, and real-time interaction — built for **patients, doctors**, and healthcare innovators.
+An **AI-powered healthcare platform** leveraging **multi-agent intelligence** and **Gemini 2.5 (Flash + Vision)** to provide intelligent diagnostics, radiology insights, treatment suggestions, and real-time interaction — built for **patients, doctors**, and healthcare innovators.
 
 📦 [GitHub Repository](https://github.com/Thorfinn05/MediNova-AI)
 🔗 [Live Site](https://medinova-ai.vercel.app/)
@@ -17,7 +17,7 @@ An **AI-powered healthcare platform** leveraging **multi-agent intelligence** an
 
 ### 💬 Symptom Analyzer
 
-* Smart symptom-to-disease mapping using **Gemini 2.0 Flash**
+* Smart symptom-to-disease mapping using **Gemini 2.5 Flash**
 * Text or **voice input** support for ease of use
 * Generates probable causes with actionable recommendations
 
@@ -94,7 +94,7 @@ Each agent uses **Gemini 2.0 (Flash or Vision)** in a coordinated pipeline, prov
 | Layer           | Technology                              |
 | --------------- | --------------------------------------- |
 | 🧑‍🎨 Frontend  | React.js, Tailwind CSS, Vite            |
-| 🧠 AI Backend   | Gemini 2.0 Flash + Vision APIs (Google) |
+| 🧠 AI Backend   | Gemini 2.5 Flash + Vision APIs (Google) |
 | 🔐 Auth & DB    | Firebase Authentication, Firestore DB   |
 | 🗣️ Voice Input | Web Speech API                          |
 | 🧩 UI Libraries | Framer Motion, Shadcn/UI, Lucide Icons  |
@@ -204,7 +204,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## 💡 Contribute
 
 We welcome contributions from the open-source community.
-Check out the [CONTRIBUTING.md](CONTRIBUTING.md) (add if needed).
+Check out the [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ```bash
 # Fork → Clone → Branch → Code → Pull Request 🚀
