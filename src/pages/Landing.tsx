@@ -597,6 +597,66 @@ const Landing = () => {
           </Button>
         </div>
       </section>
+
+      {/* Developer Section */}
+      <section className="py-20 bg-azure-50/50 dark:bg-azure-950/30">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 border-azure-200 dark:border-azure-800">
+              <span className="mr-1 text-azure-500">👨‍💻</span> Meet the Developers
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-gradient">
+              The Team Behind MediNova
+            </h2>
+            <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+              Crafted with care and innovation by our dedicated developers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-10 max-w-5xl mx-auto ">
+            {/* Developer Card Example */}
+            {[
+              {
+                name: "Rudranil Das",
+                role: "Frontend & AI Integration | Database Management",
+                img: "/Rudranil.jpg",
+                linkedin: "https://www.linkedin.com/in/rudranildas",
+                github: "https://github.com/Thorfinn05"
+              },
+              {
+                name: "Aitijhya Roy",
+                role: "UI/UX Design | Backend & API Architecture",
+                img: "/Aitijhya.jpg",
+                linkedin: "https://www.linkedin.com/in/aitijhya",
+                github: "https://github.com/AitijhyaCoded"
+              }
+            ].map((dev, i) => (
+              <Card key={i} className="p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm shadow-md rounded-xl border border-border text-center border border-azure-100 dark:border-azure-900 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-md hover:shadow-xl hover:shadow-azure-100/20 dark:hover:shadow-azure-900/20 transition-shadow duration-300">
+                <img
+                  src={dev.img}
+                  alt={dev.name}
+                  className="w-24 h-24 mx-auto rounded-full object-cover mb-4 border-4 border-azure-200 dark:border-azure-800"
+                />
+                <h3 className="text-xl font-semibold mb-1">{dev.name}</h3>
+                <p className="text-muted-foreground mb-4">{dev.role}</p>
+                <div className="flex justify-center gap-4">
+                  <a href={dev.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-azure-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="text-muted-foreground hover:text-blue-600" viewBox="0 0 24 24">
+                      <path d="M4.98 3.5C3.88 3.5 3 4.38 3 5.5S3.88 7.5 4.98 7.5 6.96 6.62 6.96 5.5 6.08 3.5 4.98 3.5zM3.5 8.98h2.96V21H3.5V8.98zM9.5 8.98h2.84v1.62h.04c.4-.76 1.36-1.57 2.8-1.57 3 0 3.56 1.97 3.56 4.53V21h-2.96v-5.48c0-1.31-.03-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9V21H9.5V8.98z" />
+                    </svg>
+                  </a>
+                  <a href={dev.github} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="text-muted-foreground hover:text-gray-900 dark:hover:text-white" viewBox="0 0 24 24">
+                      <path d="M12 .5C5.72.5.5 5.72.5 12c0 5.09 3.29 9.41 7.86 10.95.57.1.78-.25.78-.55v-1.91c-3.2.7-3.87-1.38-3.87-1.38-.52-1.32-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.67 1.25 3.32.96.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.17-3.09-.12-.29-.51-1.45.11-3.03 0 0 .97-.31 3.18 1.18a11.04 11.04 0 0 1 2.9-.39c.98 0 1.96.13 2.9.39 2.2-1.49 3.18-1.18 3.18-1.18.63 1.58.24 2.74.12 3.03.73.8 1.17 1.83 1.17 3.09 0 4.43-2.68 5.41-5.24 5.7.42.36.78 1.1.78 2.23v3.3c0 .3.21.65.79.54C20.72 21.41 24 17.09 24 12c0-6.28-5.22-11.5-12-11.5z" />
+                    </svg>
+                  </a>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       
       {/* Footer */}
       <footer className="py-12 bg-background/80 backdrop-blur-sm border-t border-border">
