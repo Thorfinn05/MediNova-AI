@@ -1,4 +1,4 @@
-# 🩺 MediNova – Smarter Diagnosis. Safer Care.
+# 🩺 MediNova AI – Smarter Diagnosis. Safer Care.
 
 An **AI-powered healthcare platform** leveraging **multi-agent intelligence** and **Gemini 2.5 (Flash + Vision)** to provide intelligent diagnostics, radiology insights, treatment suggestions, and real-time interaction — built for **patients, doctors**, and healthcare innovators.
 
