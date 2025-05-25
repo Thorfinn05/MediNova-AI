@@ -142,45 +142,45 @@ const Prescription = () => {
   // };
 
   const parsePrescriptionAnalysis = (response: string): PrescriptionAnalysis => {
-  try {
-    const medicines: Medicine[] = [];
+    try {
+      const medicines: Medicine[] = [];
 
-    // Updated regex to match the correct format from Gemini
-    const medicinesSection = response.match(/\*\*Medicines:\*\*([\s\S]*?)(?=🔍|\*\*|📋|$)/);
+      // Updated regex to match the correct format from Gemini
+      const medicinesSection = response.match(/\*\*Medicines:\*\*([\s\S]*?)(?=🔍|\*\*|📋|$)/);
 
-    if (medicinesSection && medicinesSection[1]) {
-      const medicinesText = medicinesSection[1].trim();
-      const medicineBlocks = medicinesText.split('•').filter(block => block.trim().length > 0);
+      if (medicinesSection && medicinesSection[1]) {
+        const medicinesText = medicinesSection[1].trim();
+        const medicineBlocks = medicinesText.split('•').filter(block => block.trim().length > 0);
 
-      for (const block of medicineBlocks) {
-        const nameMatch = block.match(/([^–\n]+)(?:–\s*([^\n]+))?/);
-        const alternativeMatch = block.match(/↪ Alternative:\s*([^\n]+)/);
-        const priceMatch = block.match(/💰 Price:\s*([^\n]+)/);
+        for (const block of medicineBlocks) {
+          const nameMatch = block.match(/([^–\n]+)(?:–\s*([^\n]+))?/);
+          const alternativeMatch = block.match(/↪ Alternative:\s*([^\n]+)/);
+          const priceMatch = block.match(/💰 Price:\s*([^\n]+)/);
 
-        if (nameMatch) {
-          medicines.push({
-            name: nameMatch[1]?.trim() || '',
-            dosage: nameMatch[2]?.trim() || '',
-            alternative: alternativeMatch ? alternativeMatch[1]?.trim() : '',
-            price: priceMatch ? priceMatch[1]?.trim() : ''
-          });
+          if (nameMatch) {
+            medicines.push({
+              name: nameMatch[1]?.trim() || '',
+              dosage: nameMatch[2]?.trim() || '',
+              alternative: alternativeMatch ? alternativeMatch[1]?.trim() : '',
+              price: priceMatch ? priceMatch[1]?.trim() : ''
+            });
+          }
         }
       }
+
+      const diagnosisMatch = response.match(/🔍 \*\*Diagnosis\/Condition:\*\* ([^\n]+)/);
+      const adviceMatch = response.match(/📋 \*\*Doctor's Advice:\*\* ([^\n]+)/);
+
+      return {
+        medicines,
+        diagnosis: diagnosisMatch ? diagnosisMatch[1].trim() : '',
+        doctorAdvice: adviceMatch ? adviceMatch[1].trim() : ''
+      };
+    } catch (error) {
+      console.error("Error parsing prescription analysis:", error);
+      throw new Error("Failed to parse prescription analysis");
     }
-
-    const diagnosisMatch = response.match(/🔍 \*\*Diagnosis\/Condition:\*\* ([^\n]+)/);
-    const adviceMatch = response.match(/📋 \*\*Doctor's Advice:\*\* ([^\n]+)/);
-
-    return {
-      medicines,
-      diagnosis: diagnosisMatch ? diagnosisMatch[1].trim() : '',
-      doctorAdvice: adviceMatch ? adviceMatch[1].trim() : ''
-    };
-  } catch (error) {
-    console.error("Error parsing prescription analysis:", error);
-    throw new Error("Failed to parse prescription analysis");
-  }
-};
+  };
 
   
   const generatePDF = () => {

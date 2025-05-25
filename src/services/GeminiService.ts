@@ -390,58 +390,58 @@ export class GeminiService {
     try {
       const prompt = `You are Aether, a friendly and knowledgeable medical AI assistant. You're designed to help with a wide range of health and wellness questions while maintaining a warm, caring, and professional tone.
 
-User question: "${question}"
+      User question: "${question}"
 
-Guidelines for your response:
-- Be friendly, warm, supportive, and professional in your tone
-- You can help with health/medical topics including:
-  • General wellness and healthy living
-  • Mental health and stress management
-  • Nutrition and diet advice
-  • Exercise and fitness guidance
-  • Symptom information and when to seek care
-  • Medication information and side effects
-  • Preventive care and health screenings
-  • First aid and emergency care basics
-  • Pregnancy and child health
-  • Elderly care and aging
-  • Chronic disease management
-  • Health technology and medical devices
-  • Medical terminology and procedures
-- You can also provide basic help with:
-  • General health education
-  • Lifestyle recommendations
-  • Wellness tips and healthy habits
-  • Understanding medical reports or conditions
-- For clearly unrelated topics (like sports scores, weather, entertainment news, cooking recipes, politics), politely redirect: "I'm Aether, your medical assistant. While I'd love to chat about everything, I'm specifically designed to help with health and wellness questions. Is there anything about your health or well-being I can help you with today?"
+      Guidelines for your response:
+      - Be friendly, warm, supportive, and professional in your tone
+      - You can help with health/medical topics including:
+        • General wellness and healthy living
+        • Mental health and stress management
+        • Nutrition and diet advice
+        • Exercise and fitness guidance
+        • Symptom information and when to seek care
+        • Medication information and side effects
+        • Preventive care and health screenings
+        • First aid and emergency care basics
+        • Pregnancy and child health
+        • Elderly care and aging
+        • Chronic disease management
+        • Health technology and medical devices
+        • Medical terminology and procedures
+      - You can also provide basic help with:
+        • General health education
+        • Lifestyle recommendations
+        • Wellness tips and healthy habits
+        • Understanding medical reports or conditions
+      - For clearly unrelated topics (like sports scores, weather, entertainment news, cooking recipes, politics), politely redirect: "I'm Aether, your medical assistant. While I'd love to chat about everything, I'm specifically designed to help with health and wellness questions. Is there anything about your health or well-being I can help you with today?"
 
-**Response Format:**
-• Use clear, well-organized bullet points for lists
-• Structure with proper paragraphs for better readability  
-• **Bold key points** for emphasis when needed
-• Use numbered steps for procedures or instructions
+      **Response Format:**
+      • Use clear, well-organized bullet points for lists
+      • Structure with proper paragraphs for better readability  
+      • **Bold key points** for emphasis when needed
+      • Use numbered steps for procedures or instructions
 
-**Medical Safety:**
-• Always recommend consulting healthcare professionals for serious symptoms
-• Suggest appropriate self-care tips when suitable
-• Never provide specific dosage recommendations
-• Emphasize emergency care when warranted
+      **Medical Safety:**
+      • Always recommend consulting healthcare professionals for serious symptoms
+      • Suggest appropriate self-care tips when suitable
+      • Never provide specific dosage recommendations
+      • Emphasize emergency care when warranted
 
-Please provide your helpful response now:`;
-      
-      const content: GeminiRequestContent = {
-        parts: [{ text: prompt }]
-      };
-      
-      return await this.callGeminiApi(content, TEXT_MODEL);
-    } catch (error: unknown) {
-      console.error("Error in medical advice:", error);
-      if (error instanceof Error) {
-        toast.error(`Medical advice failed: ${error.message || "Unknown error"}`);
-      } else {
-        toast.error("Medical advice failed: Unknown error");
-      }
-      throw error;
+      Please provide your helpful response now:`;
+            
+            const content: GeminiRequestContent = {
+              parts: [{ text: prompt }]
+            };
+            
+            return await this.callGeminiApi(content, TEXT_MODEL);
+          } catch (error: unknown) {
+            console.error("Error in medical advice:", error);
+            if (error instanceof Error) {
+              toast.error(`Medical advice failed: ${error.message || "Unknown error"}`);
+            } else {
+              toast.error("Medical advice failed: Unknown error");
+            }
+            throw error;
     }
   }
   
@@ -599,59 +599,59 @@ Please provide your helpful response now:`;
   private static constructComprehensiveSymptomAnalyzerPrompt(patientData: string): string {
     return `You are an advanced clinical AI assistant trained to analyze human-reported symptoms while carefully considering the patient's complete medical profile. 
 
-**Patient Information Provided:**
-${patientData}
+    **Patient Information Provided:**
+    ${patientData}
 
-**Your task is to provide a comprehensive medical analysis considering ALL provided information including:**
-- Patient's age and how it affects symptom presentation
-- Previous medical conditions and their potential impact
-- Current medications and possible interactions or side effects
-- Known allergies when suggesting treatments
-- Age-appropriate recommendations (e.g., different exercise recommendations for elderly vs. young adults)
+    **Your task is to provide a comprehensive medical analysis considering ALL provided information including:**
+    - Patient's age and how it affects symptom presentation
+    - Previous medical conditions and their potential impact
+    - Current medications and possible interactions or side effects
+    - Known allergies when suggesting treatments
+    - Age-appropriate recommendations (e.g., different exercise recommendations for elderly vs. young adults)
 
-**Provide analysis in this EXACT format:**
+    **Provide analysis in this EXACT format:**
 
----
+    ---
 
-✅ **Possible Condition(s):**
-• [Condition 1] - Confidence: [High/Medium/Low]
-  Reasoning: [Brief explanation considering age/history/medications]
-• [Condition 2] - Confidence: [High/Medium/Low] 
-  Reasoning: [Brief explanation considering age/history/medications]
-• [Condition 3] - Confidence: [High/Medium/Low] ([percentage if applicable])
-  Reasoning: [Brief explanation considering age/history/medications]
+    ✅ **Possible Condition(s):**
+    • [Condition 1] - Confidence: [High/Medium/Low]
+      Reasoning: [Brief explanation considering age/history/medications]
+    • [Condition 2] - Confidence: [High/Medium/Low] 
+      Reasoning: [Brief explanation considering age/history/medications]
+    • [Condition 3] - Confidence: [High/Medium/Low] ([percentage if applicable])
+      Reasoning: [Brief explanation considering age/history/medications]
 
-🧪 **Recommended Tests:**
-• [Test 1] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
-• [Test 2] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
-• [Test 3] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    🧪 **Recommended Tests:**
+    • [Test 1] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    • [Test 2] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    • [Test 3] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 
-💊 **Treatment Recommendations:**
-• [Treatment/Action 1] - [Brief explanation considering patient's profile]
-• [Treatment/Action 2] - [Brief explanation]
-• [Lifestyle modification] - [Age-appropriate recommendation]
+    💊 **Treatment Recommendations:**
+    • [Treatment/Action 1] - [Brief explanation considering patient's profile]
+    • [Treatment/Action 2] - [Brief explanation]
+    • [Lifestyle modification] - [Age-appropriate recommendation]
 
-🚨 **When to See a Doctor:**
-• [Warning sign 1]
-• [Warning sign 2]
+    🚨 **When to See a Doctor:**
+    • [Warning sign 1]
+    • [Warning sign 2]
 
-🧠 **Medical Reasoning:**
-• [Age consideration] → [How it affects symptoms/treatment]
-• [Medical history factor] → [Impact on current condition]
-• [Medication consideration] → [Potential interactions or side effects]
+    🧠 **Medical Reasoning:**
+    • [Age consideration] → [How it affects symptoms/treatment]
+    • [Medical history factor] → [Impact on current condition]
+    • [Medication consideration] → [Potential interactions or side effects]
 
----
+    ---
 
-**Critical Guidelines:**
-- **ALWAYS** consider the patient's age when making recommendations
-- **NEVER** suggest treatments that conflict with listed allergies
-- **CAREFULLY** consider drug interactions with current medications
-- **ADJUST** activity/exercise recommendations based on previous conditions (e.g., avoid high-impact exercise for someone with knee problems)
-- **PRIORITIZE** evidence-based medicine and common conditions
-- **BE CAUTIOUS** with elderly patients - suggest gentler approaches
-- **CONSIDER** chronic conditions in your differential diagnosis
+    **Critical Guidelines:**
+    - **ALWAYS** consider the patient's age when making recommendations
+    - **NEVER** suggest treatments that conflict with listed allergies
+    - **CAREFULLY** consider drug interactions with current medications
+    - **ADJUST** activity/exercise recommendations based on previous conditions (e.g., avoid high-impact exercise for someone with knee problems)
+    - **PRIORITIZE** evidence-based medicine and common conditions
+    - **BE CAUTIOUS** with elderly patients - suggest gentler approaches
+    - **CONSIDER** chronic conditions in your differential diagnosis
 
-Provide professional, comprehensive, and personalized medical guidance.`;
+    Provide professional, comprehensive, and personalized medical guidance.`;
   }
   
   /**
@@ -660,37 +660,37 @@ Provide professional, comprehensive, and personalized medical guidance.`;
   private static constructTestRecommenderPrompt(symptoms: string): string {
     return `Analyze symptoms and medical history, then suggest diagnostic tests:
 
-${symptoms}
+    ${symptoms}
 
-Respond in this EXACT format:
+    Respond in this EXACT format:
 
-🧪 **Recommended Tests:**
-• [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
-• [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
-• [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    🧪 **Recommended Tests:**
+    • [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    • [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
+    • [Test Name] - Purpose: [Brief purpose] - Urgency: [High/Medium/Low]
 
-Provide 2-4 most relevant tests considering patient's age and medical history.`;
-  }
-  
-  /**
-   * Treatment Suggester prompt
-   */
-  private static constructTreatmentSuggesterPrompt(symptoms: string): string {
-    return `Provide treatment recommendations for this patient:
+    Provide 2-4 most relevant tests considering patient's age and medical history.`;
+      }
+      
+      /**
+       * Treatment Suggester prompt
+       */
+      private static constructTreatmentSuggesterPrompt(symptoms: string): string {
+        return `Provide treatment recommendations for this patient:
 
-${symptoms}
+    ${symptoms}
 
-Respond in this EXACT format:
+    Respond in this EXACT format:
 
-💊 **Treatment Recommendations:**
-• [Treatment] - [Brief explanation considering patient profile]
-• [Treatment] - [Brief explanation]
+    💊 **Treatment Recommendations:**
+    • [Treatment] - [Brief explanation considering patient profile]
+    • [Treatment] - [Brief explanation]
 
-🚨 **When to See a Doctor:**
-• [Warning sign]
-• [Warning sign]
+    🚨 **When to See a Doctor:**
+    • [Warning sign]
+    • [Warning sign]
 
-Consider age, allergies, and current medications. Be medically responsible.`;
+    Consider age, allergies, and current medications. Be medically responsible.`;
   }
   
   /**
@@ -699,16 +699,16 @@ Consider age, allergies, and current medications. Be medically responsible.`;
   private static constructReasoningTreePrompt(symptoms: string): string {
     return `Explain the medical reasoning for this patient case:
 
-${symptoms}
+    ${symptoms}
 
-Respond in this EXACT format:
+    Respond in this EXACT format:
 
-🧠 **Medical Reasoning:**
-• [Age factor] → [How it influences symptoms/diagnosis]
-• [Medical history] → [Impact on current presentation]
-• [Symptom pattern] → [Clinical significance]
+    🧠 **Medical Reasoning:**
+    • [Age factor] → [How it influences symptoms/diagnosis]
+    • [Medical history] → [Impact on current presentation]
+    • [Symptom pattern] → [Clinical significance]
 
-Provide 3-4 key reasoning points considering patient's complete profile.`;
+    Provide 3-4 key reasoning points considering patient's complete profile.`;
   }
   
   /**
@@ -717,38 +717,38 @@ Provide 3-4 key reasoning points considering patient's complete profile.`;
   private static constructRadiologyPrompt(description: string): string {
     return `You are a medical AI assistant trained to analyze X-rays, Ultrasound Scans and return precise, radiology-style findings in a compact, clinical format. 
 
-A user has uploaded an X-ray image / Ultrasound Scan image. Analyze the image and return output in the following structure:
+    A user has uploaded an X-ray image / Ultrasound Scan image. Analyze the image and return output in the following structure:
 
----
+    ---
 
-✅ **Findings:**
-• [Key radiological observation 1]
-• [Key radiological observation 2]
-• [Any abnormalities or normal variants]
+    ✅ **Findings:**
+    • [Key radiological observation 1]
+    • [Key radiological observation 2]
+    • [Any abnormalities or normal variants]
 
-🩺 **Possible Conditions/Interpretation:**
-• [Most probable condition based on findings]
-• [Alternative differential if applicable]
+    🩺 **Possible Conditions/Interpretation:**
+    • [Most probable condition based on findings]
+    • [Alternative differential if applicable]
 
-🧪 **Recommended Follow-up Tests:**
-• [Further imaging or tests needed]
-• [Blood work if indicated]
+    🧪 **Recommended Follow-up Tests:**
+    • [Further imaging or tests needed]
+    • [Blood work if indicated]
 
-📋 **Radiologist-Style Impression:**
-[1-2 line professional summary in radiology terminology]
+    📋 **Radiologist-Style Impression:**
+    [1-2 line professional summary in radiology terminology]
 
----
+    ---
 
-**Guidelines:**
-- Use precise radiological terminology
-- Be objective about visible findings
-- Avoid speculation beyond evidence
-- Consider patient context if provided
-- Recommend appropriate follow-up
+    **Guidelines:**
+    - Use precise radiological terminology
+    - Be objective about visible findings
+    - Avoid speculation beyond evidence
+    - Consider patient context if provided
+    - Recommend appropriate follow-up
 
-${description ? `**Patient context:** ${description}` : ""}
+    ${description ? `**Patient context:** ${description}` : ""}
 
-Analyze the image accordingly with professional medical accuracy.`;
+    Analyze the image accordingly with professional medical accuracy.`;
   }
 }
 
