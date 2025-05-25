@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,7 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Mail, Calendar, Clock, Activity, AlertCircle } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { db } from "@/lib/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const patientProfileSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -39,6 +40,8 @@ type DoctorProfileFormValues = z.infer<typeof doctorProfileSchema>;
 const Profile = () => {
   const { currentUser, userRole } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState<PatientProfileFormValues | DoctorProfileFormValues | null>(null);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   const defaultPatientValues: PatientProfileFormValues = {
@@ -60,39 +63,123 @@ const Profile = () => {
     notificationsEnabled: true,
   };
 
+  // Load profile data from Firestore
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!currentUser) return;
+      
+      try {
+        const profileRef = doc(db, "profiles", currentUser.uid);
+        const profileSnap = await getDoc(profileRef);
+        
+        if (profileSnap.exists()) {
+          setProfileData(profileSnap.data() as PatientProfileFormValues | DoctorProfileFormValues);
+        } else {
+          // Set default values based on role
+          const defaultData = userRole === "patient" ? defaultPatientValues : defaultDoctorValues;
+          setProfileData(defaultData);
+        }
+      } catch (error) {
+        console.error("Error loading profile:", error);
+        // Fallback to default values
+        const defaultData = userRole === "patient" ? defaultPatientValues : defaultDoctorValues;
+        setProfileData(defaultData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [currentUser, userRole]);
+
   const patientForm = useForm<PatientProfileFormValues>({
     resolver: zodResolver(patientProfileSchema),
-    defaultValues: defaultPatientValues,
+    defaultValues: profileData as PatientProfileFormValues || defaultPatientValues,
   });
 
   const doctorForm = useForm<DoctorProfileFormValues>({
     resolver: zodResolver(doctorProfileSchema),
-    defaultValues: defaultDoctorValues,
+    defaultValues: profileData as DoctorProfileFormValues || defaultDoctorValues,
   });
 
-  const onPatientSubmit = (data: PatientProfileFormValues) => {
-    // In a real app, this would update the user's profile in Firestore
-    console.log("Updated patient profile:", data);
+  // Update form values when profileData changes
+  useEffect(() => {
+    if (profileData) {
+      if (userRole === "patient") {
+        patientForm.reset(profileData as PatientProfileFormValues);
+      } else {
+        doctorForm.reset(profileData as DoctorProfileFormValues);
+      }
+    }
+  }, [profileData, userRole]);
+
+  const onPatientSubmit = async (data: PatientProfileFormValues) => {
+    if (!currentUser) return;
     
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been successfully updated.",
-    });
-    
-    setIsEditing(false);
+    try {
+      const profileRef = doc(db, "profiles", currentUser.uid);
+      await setDoc(profileRef, {
+        ...data,
+        userRole: "patient",
+        updatedAt: new Date().toISOString(),
+      });
+      
+      setProfileData(data);
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been successfully updated.",
+      });
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const onDoctorSubmit = (data: DoctorProfileFormValues) => {
-    // In a real app, this would update the doctor's profile in Firestore
-    console.log("Updated doctor profile:", data);
+  const onDoctorSubmit = async (data: DoctorProfileFormValues) => {
+    if (!currentUser) return;
     
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been successfully updated.",
-    });
-    
-    setIsEditing(false);
+    try {
+      const profileRef = doc(db, "profiles", currentUser.uid);
+      await setDoc(profileRef, {
+        ...data,
+        userRole: "doctor",
+        updatedAt: new Date().toISOString(),
+      });
+      
+      setProfileData(data);
+      
+      toast({
+        title: "Profile updated",
+        description: "Your profile has been successfully updated.",
+      });
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  const currentData = profileData || (userRole === "patient" ? defaultPatientValues : defaultDoctorValues);
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -115,10 +202,10 @@ const Profile = () => {
               
               <div className="text-center">
                 <h2 className="text-xl font-bold">
-                  {userRole === "patient" ? defaultPatientValues.fullName : defaultDoctorValues.fullName}
+                  {(currentData as any).fullName}
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  {userRole === "doctor" && defaultDoctorValues.specialization}
+                  {userRole === "doctor" && (currentData as DoctorProfileFormValues).specialization}
                   {userRole === "patient" && "Patient"}
                 </p>
               </div>
@@ -161,7 +248,7 @@ const Profile = () => {
                   <div>
                     <p className="text-sm font-medium">Date of Birth</p>
                     <p className="text-sm text-muted-foreground">
-                      {defaultPatientValues.dateOfBirth}
+                      {(currentData as PatientProfileFormValues).dateOfBirth}
                     </p>
                   </div>
                 </div>
@@ -173,7 +260,7 @@ const Profile = () => {
                   <div>
                     <p className="text-sm font-medium">License</p>
                     <p className="text-sm text-muted-foreground">
-                      {defaultDoctorValues.licenseNumber}
+                      {(currentData as DoctorProfileFormValues).licenseNumber}
                     </p>
                   </div>
                 </div>
@@ -330,22 +417,22 @@ const Profile = () => {
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Full Name</h3>
-                        <p>{defaultPatientValues.fullName}</p>
+                        <p>{(currentData as PatientProfileFormValues).fullName}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Date of Birth</h3>
-                        <p>{defaultPatientValues.dateOfBirth}</p>
+                        <p>{(currentData as PatientProfileFormValues).dateOfBirth}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Phone Number</h3>
-                        <p>{defaultPatientValues.phone}</p>
+                        <p>{(currentData as PatientProfileFormValues).phone}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Emergency Contact</h3>
-                        <p>{defaultPatientValues.emergencyContact}</p>
+                        <p>{(currentData as PatientProfileFormValues).emergencyContact}</p>
                       </div>
                     </div>
                     
@@ -353,12 +440,12 @@ const Profile = () => {
                     
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground mb-1">Allergies</h3>
-                      <p>{defaultPatientValues.allergies || "None listed"}</p>
+                      <p>{(currentData as PatientProfileFormValues).allergies || "None listed"}</p>
                     </div>
                     
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground mb-1">Current Medications</h3>
-                      <p>{defaultPatientValues.medications || "None listed"}</p>
+                      <p>{(currentData as PatientProfileFormValues).medications || "None listed"}</p>
                     </div>
                     
                     <Separator />
@@ -370,7 +457,7 @@ const Profile = () => {
                           Receive updates about your health reports and appointments
                         </p>
                       </div>
-                      <Switch checked={defaultPatientValues.notificationsEnabled} disabled />
+                      <Switch checked={(currentData as PatientProfileFormValues).notificationsEnabled} disabled />
                     </div>
                   </div>
                 )}
@@ -503,22 +590,22 @@ const Profile = () => {
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Full Name</h3>
-                        <p>{defaultDoctorValues.fullName}</p>
+                        <p>{(currentData as DoctorProfileFormValues).fullName}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Specialization</h3>
-                        <p>{defaultDoctorValues.specialization}</p>
+                        <p>{(currentData as DoctorProfileFormValues).specialization}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">License Number</h3>
-                        <p>{defaultDoctorValues.licenseNumber}</p>
+                        <p>{(currentData as DoctorProfileFormValues).licenseNumber}</p>
                       </div>
                       
                       <div>
                         <h3 className="text-sm font-medium text-muted-foreground mb-1">Phone Number</h3>
-                        <p>{defaultDoctorValues.phone}</p>
+                        <p>{(currentData as DoctorProfileFormValues).phone}</p>
                       </div>
                     </div>
                     
@@ -526,7 +613,7 @@ const Profile = () => {
                     
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground mb-1">Professional Bio</h3>
-                      <p>{defaultDoctorValues.bio}</p>
+                      <p>{(currentData as DoctorProfileFormValues).bio}</p>
                     </div>
                     
                     <Separator />
@@ -538,7 +625,7 @@ const Profile = () => {
                           Receive updates about patient cases and system alerts
                         </p>
                       </div>
-                      <Switch checked={defaultDoctorValues.notificationsEnabled} disabled />
+                      <Switch checked={(currentData as DoctorProfileFormValues).notificationsEnabled} disabled />
                     </div>
                   </div>
                 )}
