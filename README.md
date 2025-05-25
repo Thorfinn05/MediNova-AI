@@ -1,143 +1,190 @@
 # 🩺 MediNova – Smarter Diagnosis. Safer Care.
 
-An AI-powered healthcare platform leveraging multi-agent intelligence to provide smarter diagnostics, radiology insights, treatment suggestions, and more — all while maintaining HIPAA-compliant privacy and precision.
+An **AI-powered healthcare platform** leveraging **multi-agent intelligence** and **Gemini 2.0 (Flash + Vision)** to provide intelligent diagnostics, radiology insights, treatment suggestions, and real-time interaction — built for **patients, doctors**, and healthcare innovators.
 
 📦 [GitHub Repository](https://github.com/Thorfinn05/MediNova-AI)
 🔗 [Live Site](https://medinova-ai.vercel.app/)
-
 
 ---
 
 ## 🌟 Overview
 
-*MediNova* transforms modern healthcare diagnostics with the power of advanced AI agents and multimodal vision analysis. Designed for both patients and healthcare professionals, it delivers fast, secure, and interpretable medical insights — from symptom analysis to radiology annotation — all in one seamless platform.
+*MediNova* transforms modern healthcare diagnostics with the power of **advanced AI agents** and **multimodal analysis**. Whether you're a concerned patient or a medical professional, MediNova simplifies symptom decoding, test/treatment guidance, radiology interpretation, and medical communication — securely and intelligently.
 
 ---
 
-## 🔍 Key Features
+## 🔍 Core Features
 
 ### 💬 Symptom Analyzer
 
-* AI-powered symptom evaluation to detect potential conditions.
-* Processes complex input with Gemini 2.0 reasoning.
+* Smart symptom-to-disease mapping using **Gemini 2.0 Flash**
+* Text or **voice input** support for ease of use
+* Generates probable causes with actionable recommendations
 
 ### 🧪 Test Recommender
 
-* Suggests optimal diagnostic tests based on symptoms and probable conditions.
+* Suggests relevant diagnostic tests based on symptom profiles
+* Helps avoid redundant or unnecessary testing
 
 ### 💊 Treatment Suggester
 
-* Offers evidence-backed treatment recommendations using Gemini’s medical awareness.
+* Uses AI reasoning to provide **evidence-based treatment plans**
+* Designed to aid patients and assist physicians in decision-making
 
 ### 🖼️ Image Annotator
 
-* Upload medical images to receive annotated diagnostics via Gemini vision models.
+* Upload medical scans (X-ray, MRI, etc.) for AI-powered annotation
+* Gemini Vision identifies visible signs and anomalies
 
-### 📋 AI Radiology
+### 📋 Prescription Analyzer
 
-* Analyze radiological images using advanced Vision Transformers.
+* Upload prescriptions (including handwritten ones)
+* Extracts medications, dosages, instructions
+* Highlights **affordable alternatives** and pricing insights
 
-### 🔐 HIPAA-Compliant
+### 📄 PDF Medical Summary
 
-* All health data is encrypted and securely processed with role-based access.
+* Auto-generated patient summary and analysis in PDF format
+* Includes annotated image, extracted insights, and reports
 
-### 🤖 Aether-Chatbot
+### 🧠 AI Radiology Assistant
 
-*  Live chat with AI medical agent about any healthcare related queries.
+* Vision-powered deep scan interpretation
+* Ideal for remote diagnostics or second opinions
+
+### 🔊 Voice Interaction System
+
+* Talk to MediNova using your voice — available in assistant + symptom modules
+* Built using **Web Speech API** and optimized for accessibility
+
+### 🧑‍⚕️ Doctor’s Portal
+
+* Manage patient analysis history
+* Track cases, review prescriptions, and collaborate securely
+
+### 🔐 Data Security & HIPAA-Readiness
+
+* Role-based access for patients and doctors
+* Firestore & Firebase Auth used with data encryption practices
+
+### 🤖 Aether Chatbot
+
+* Natural, real-time chat with a friendly medical AI assistant
+
 ---
 
-## 🧠 How MediNova Works
+## 🧠 Architecture – How MediNova Works
 
-MediNova is powered by AI agents that work together in a modular pipeline to:
+MediNova runs on **micro-agent AI architecture**, with each module responsible for a specialized healthcare function:
 
-1. Analyze symptoms
-2. Recommend tests
-3. Suggest treatments
-4. Patient-specific diagnosis history
-5. Annotate medical images
-6. Deliver secure, explainable outputs
-7. PDF report downloads
-8. Friendly chatbot
+1. **Input Parser** (Text, Image, or Voice)
+2. **Symptom Agent**
+3. **Test & Treatment Agent**
+4. **Radiology Vision Agent**
+5. **Prescription OCR + NLP**
+6. **PDF Generator**
+7. **Chat & Follow-up Agent**
 
-Each agent specializes in a task but collaborates with others for holistic analysis.
+Each agent uses **Gemini 2.0 (Flash or Vision)** in a coordinated pipeline, providing **human-level insights** in real time.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer                | Technologies Used                          |
-| -------------------- | ------------------------------------------ |
-| Frontend             | React.js, Tailwind CSS, Vite               |
-| Backend              | React.js, Firebase                        |
-| Authentication       | Firebase Authentication                    |
-| Database and Storage | Firestore Database, Firebase Storage
-| AI Integration       | Gemini 2.0 Flash API (Vision + Text)       |
-| UI/UX                | Framer Motion, Shadcn/UI, Lucide Icons     |
-| Deployment           | Vercel                                     |
-| Security             | HIPAA-ready design principles (conceptual) |
+| Layer           | Technology                              |
+| --------------- | --------------------------------------- |
+| 🧑‍🎨 Frontend  | React.js, Tailwind CSS, Vite            |
+| 🧠 AI Backend   | Gemini 2.0 Flash + Vision APIs (Google) |
+| 🔐 Auth & DB    | Firebase Authentication, Firestore DB   |
+| 🗣️ Voice Input | Web Speech API                          |
+| 🧩 UI Libraries | Framer Motion, Shadcn/UI, Lucide Icons  |
+| ☁️ Deployment   | Vercel                                  |
 
 ---
 
-## 📸 UI Preview
+## 🖼️ UI Preview
 
-![MediNova Screenshot](/mnt/data/84d54309-e496-4fa4-b630-2b5e59e8560a.png)
+> (Add screenshots of each module: Symptom Analyzer, Prescription Decoder, Radiology Scanner, Doctor Dashboard)
 
 ---
 
-## 🧑‍💻 Run Locally
+## 📦 Installation Guide
 
+### 1️⃣ Clone the repository
 
-### Clone the repository
 ```bash
 git clone https://github.com/Thorfinn05/MediNova-AI.git
-
 cd medinova
 ```
 
-### Install dependencies
+### 2️⃣ Install dependencies
+
 ```bash
 npm install
 ```
 
-### Start development server
+### 3️⃣ Add your `.env` file
+
+```env
+VITE_GEMINI_API_KEY=your_api_key_here
+```
+
+### 4️⃣ Start the development server
+
 ```bash
 npm run dev
 ```
 
-
-Access the app at http://localhost:3000.
+App will run at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🗂️ Project Structure
+## 📁 Project Structure
 
 ```bash
 medinova/
-├── public/
+├── public/                 # Static files
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── assets/
-│   └── App.jsx
-├── .env
-├── package.json
-└── vite.config.js
+│   ├── components/         # Reusable UI Components
+│   ├── pages/              # Route-based pages
+│   ├── assets/             # Images & icons
+│   ├── utils/              # AI service handlers
+│   └── App.jsx             # Main App entry
+├── .env                    # Environment config
+├── package.json            # Dependencies
+└── vite.config.js          # Build config
 ```
 
 ---
 
-## 🎯 Future Enhancements
+## 🚀 Upcoming Enhancements
 
-* 🧠 Improved analysis
-* 🏥 Doctor collaboration portal
-* 📱 Mobile-responsive PWA version
+| Feature                                                  | Status     |
+| -------------------------------------------------------- | ---------- |
+| 📍 Location-based pharmacy suggestions from prescription | 🚧 Planned |
+| 📱 Fully responsive mobile PWA version                   | 🚧 Planned |
+| 🧑‍⚕️ Enhanced Doctor–Pharmacy collaboration portal      | 🚧 Planned |
+| 🧬 Wearable health integration                           | 🚧 Planned |
+| 🌐 Multilingual Support                                  | 🚧 Planned |
+| 🧠 More accurate AI-powered radiology insight pipeline   | 🚧 Planned |
 
 ---
 
-## 👨‍💻 Author
+## 🐛 Challenges We Overcame
 
-* *Rudranil Das* – [@Thorfinn05](https://github.com/Thorfinn05)
-* *Aitijhya Roy* – [@AitijhyaCoded](https://github.com/AitijhyaCoded)
+* Integrating **multi-modal AI agents** (text + vision) into one flow
+* Ensuring OCR works well on real-world, low-quality prescription images
+* Making chatbot answers both **concise and medically relevant**
+* Handling simultaneous PDF generation + image processing
+* Voice input integration using Web Speech API on multiple browsers
+* Designing for both **doctors** and **patients** without complexity
+
+---
+
+## 👨‍💻 Team
+
+* **Rudranil Das** – [@Thorfinn05](https://github.com/Thorfinn05)
+* **Aitijhya Roy** – [@AitijhyaCoded](https://github.com/AitijhyaCoded)
 
 ---
 
@@ -147,7 +194,17 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Feel free to fork the project and contribute! 🤝
-*Empowering diagnostics with AI — one pixel, one symptom at a time.*
+## 💡 Contribute
+
+We welcome contributions from the open-source community.
+Check out the [CONTRIBUTING.md](CONTRIBUTING.md) (add if needed).
+
+```bash
+# Fork → Clone → Branch → Code → Pull Request 🚀
+```
+
+---
+
+> 🧬 *Empowering diagnostics with AI — one pixel, one symptom at a time.*
 
 ---
