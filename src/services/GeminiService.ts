@@ -434,9 +434,13 @@ Please provide your helpful response now:`;
       };
       
       return await this.callGeminiApi(content, TEXT_MODEL);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error in medical advice:", error);
-      toast.error(`Medical advice failed: ${error.message || "Unknown error"}`);
+      if (error instanceof Error) {
+        toast.error(`Medical advice failed: ${error.message || "Unknown error"}`);
+      } else {
+        toast.error("Medical advice failed: Unknown error");
+      }
       throw error;
     }
   }
@@ -546,9 +550,13 @@ Please provide your helpful response now:`;
       };
       
       return await this.callGeminiApi(content, VISION_MODEL);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error in prescription analysis:", error);
-      toast.error(`Prescription analysis failed: ${error.message || "Unknown error"}`);
+      if (error instanceof Error) {
+        toast.error(`Prescription analysis failed: ${error.message || "Unknown error"}`);
+      } else {
+        toast.error("Prescription analysis failed: Unknown error");
+      }
       throw error;
     }
   }
