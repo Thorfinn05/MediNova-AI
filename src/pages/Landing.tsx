@@ -609,7 +609,7 @@ const Landing = () => {
               The Team Behind MediNova
             </h2>
             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-              Crafted with care and innovation by our dedicated developers.
+              Crafted with care and innovation by Team HackuBabu
             </p>
           </div>
 
