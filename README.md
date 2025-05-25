@@ -105,6 +105,7 @@ Each agent uses **Gemini 2.5 (Flash or Vision)** in a coordinated pipeline, prov
 ## 🖼️ UI Preview
 
 > (Add screenshots of each module: Symptom Analyzer, Prescription Decoder, Radiology Scanner, Doctor Dashboard)
+<!-- ![Login Page](https://raw.githubusercontent.com/Thorfinn05/MediNova-AI/main/public/Rudranil.jpg)-->
 
 ---
 
